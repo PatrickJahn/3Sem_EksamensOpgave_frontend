@@ -1,4 +1,4 @@
-# CA3 - How to use FRONTEND
+# Eksamens opgave Frontend - How to use FRONTEND
 
 ## Prerequisites 
 
@@ -6,7 +6,7 @@
 Clone repository   
 
 
-In settings.js change the url so that it matches the origin of where you deployed your project. Currently (https://theonegruppetorulethemall.com/ca3/) 
+In settings.js change the url so that it matches the origin of where you deployed your project.
 
 
 Npm install
@@ -26,8 +26,6 @@ Page 2.  Login  "/LoginPage"-         Login page allows you to login, if your lo
 
 #### LOGGED IN  
 
-
-Page 3.  StarwarsPage "/StarwarsPage"- Fetches data from a REST-API (https://swapi.dev/api/films/1/) and is presented in tables and coloumns (Starwars.js). This includes charecters and planets from the godlike movie "A New Hope" Star Wars, episode 4. 
 
 
 
