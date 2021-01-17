@@ -5,20 +5,17 @@ import { Switch, Route, NavLink } from "react-router-dom";
 import DogForm from "./dogAdd";
 import UserDogs from "./UserDogs";
 import Breeds from "./breeds";
+import BreedDetails from "./breedDetails";
+import AdminPage from "./adminpage";
 
-
-function Header({ loggedIn }) {
+function Header({ loggedIn, role }) {
   return (
     <div>
       <ul className="header">
-        <li>
-          <NavLink exact activeClassName="selected" to="/">
-            Home
-          </NavLink>
-        </li>
+       
         <li>
           <NavLink activeClassName="selected" to="/LoginPage">
-            Login
+           {loggedIn ? (<>Logout</>) : (<>Login</>)}
           </NavLink>
         </li>
         <li>
@@ -27,7 +24,7 @@ function Header({ loggedIn }) {
           </NavLink>
         </li>
 
-        {loggedIn && (
+        {loggedIn && role == "user" && (
           <li>
           <NavLink activeClassName="selected" to="/MyDogs">
             My dogs
@@ -35,10 +32,18 @@ function Header({ loggedIn }) {
         </li>
         )}
 
-        {loggedIn && (
+        {loggedIn && role == "user"  && (
           <li>
           <NavLink activeClassName="selected" to="/AddDog">
             Add dog
+          </NavLink>
+        </li>
+        )}
+
+  {loggedIn && role == "admin" && (
+          <li>
+          <NavLink activeClassName="selected" to="/Admin">
+            Admin
           </NavLink>
         </li>
         )}
@@ -55,7 +60,7 @@ function Home() {
   return <WelcomePage />;
 }
 
-function LoginPage({ setLoggedIn, loggedIn }) {
+function LoginPage({ setLoggedIn, loggedIn, setRole }) {
   const [loggedInError, setLoggedInError] = useState("");
 
   const logout = () => {
@@ -85,7 +90,7 @@ function LoginPage({ setLoggedIn, loggedIn }) {
         <LogIn login={login} />
       ) : (
         <div>
-          <LoggedIn />
+          <LoggedIn setRole={setRole}/>
           <button onClick={logout}>Logout</button>
         </div>
       )}
@@ -119,7 +124,7 @@ function LogIn({ login }) {
     </div>
   );
 }
-function LoggedIn() {
+function LoggedIn({setRole}) {
   const [dataFromServer, setDataFromServer] = useState("");
   const jwt = require("jsonwebtoken");
   const token = localStorage.getItem("jwtToken");
@@ -129,7 +134,9 @@ function LoggedIn() {
   if (roleToFetch === "admin,user") {
     roleToFetch = "admin";
   }
+  
   useEffect(() => {
+    setRole(roleToFetch)
     facade.fetchData(roleToFetch).then((data) => setDataFromServer(data.msg));
   }, []);
 
@@ -144,16 +151,18 @@ function LoggedIn() {
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [role, setRole] = useState();
+
 
   return (
     <div>
-      <Header loggedIn={loggedIn} />
+      <Header loggedIn={loggedIn} role={role} />
       <Switch>
         <Route exact path="/">
           <Home />
         </Route>
         <Route exact path="/LoginPage">
-          <LoginPage setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
+          <LoginPage setLoggedIn={setLoggedIn} setRole={setRole} loggedIn={loggedIn} />
         </Route>
         <Route exact path="/AddDog">  
           <DogForm />       
@@ -163,6 +172,14 @@ function App() {
         </Route>
         <Route exact path="/Dogs">  
           <Breeds />       
+        </Route>
+
+        <Route  path="/dogbreed/">  
+          <BreedDetails />       
+        </Route>
+
+        <Route exact path="/admin">  
+          <AdminPage />       
         </Route>
        
       </Switch>

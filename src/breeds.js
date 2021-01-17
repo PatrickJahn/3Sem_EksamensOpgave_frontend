@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import facade from "./apiFacade";
+import { Switch, Route, NavLink } from "react-router-dom";
 
 
 
@@ -9,28 +10,45 @@ export default function Breeds(){
 
     useEffect(() => {
 
+        facade.fetchAllSearches().then((data) => {
+            console.log("dd")
+
+        })
+
         facade.fetchBreeds().then((data) => {
                 setBreeds(data)
 
         })
 
+       
+
     },[])
 
     return (
-        <div>
+        <>
+           <h1 className="breedsTop">Dog breeds</h1>
+        <div className="breeds">
+
+ 
             {breeds.map((item) =>{
 
+                const breed = item.breed
+               const breedUppercased =  breed.charAt(0).toUpperCase() + breed.slice(1);
                 return(
+                    <NavLink className="breedsbox" to={"/dogbreed/" + item.breed} >
+                   
                     <div key={item.breed}>
-                        <h3>{item.breed}</h3>
+                        <h3>{breedUppercased}</h3>
                     </div>
+                  
+                  </NavLink>
                 )
 
             })}
 
 
         </div>
-
+</>
     )
 }
 

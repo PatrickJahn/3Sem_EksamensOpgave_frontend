@@ -29,6 +29,16 @@ function apiFacade() {
     return fetch(URL + "/api/dog/add", options).then(handleHttpErrors);
   }
 
+  const editDog = (dog) => {
+    const options = makeOptions("PUT", true, dog); 
+    console.log(dog.id)
+    return fetch(URL + "/api/dog/edit", options).then(handleHttpErrors);
+  }
+  const deleteDog = (id) => {
+    const options = makeOptions("DELETE", true); 
+    return fetch(URL + "/api/dog/delete/" + id, options).then(handleHttpErrors);
+  }
+
   const fetchUserDogs = () => {
     const options = makeOptions("GET", true); 
     return fetch(URL + "/api/dog/mydogs", options).then(handleHttpErrors);
@@ -38,6 +48,27 @@ function apiFacade() {
     const options = makeOptions("GET"); 
     return fetch(URL + "/api/dog/breeds", options).then(handleHttpErrors);
   }
+  
+  const fetchBreedDetails = (breed) => {
+    const options = makeOptions("GET"); 
+    return fetch(URL + "/api/dog/breeds/" + breed, options).then(handleHttpErrors);
+  }
+
+  const fetchAllSearchcount = () => {
+    const options = makeOptions("GET", true); 
+    return fetch(URL + "/api/info/admin/searches", options).then(handleHttpErrors);
+  }
+
+  const fetchAllSearchByBreed = (breed) => {
+    const options = makeOptions("GET", true); 
+    return fetch(URL + "/api/info/admin/searches/"+breed, options).then(handleHttpErrors);
+  }
+
+  const fetchAllSearches = () => {
+    const options = makeOptions("GET", true); 
+    return fetch(URL + "/api/info/admin/allsearches/", options).then(handleHttpErrors);
+  }
+  
   
 
   const makeOptions = (method, addToken, body) => {
@@ -59,7 +90,8 @@ function apiFacade() {
   const setToken = (token) => {
     localStorage.setItem("jwtToken", token);
   };
-  const getToken = () => {
+  const getToken = () => {  
+    
     return localStorage.getItem("jwtToken");
   };
   const loggedIn = () => {
@@ -79,8 +111,14 @@ function apiFacade() {
     logout,
     fetchData,
     addDog,
+    editDog,
+    deleteDog,
     fetchUserDogs,
-    fetchBreeds
+    fetchBreeds,
+    fetchBreedDetails,
+    fetchAllSearchcount,
+    fetchAllSearchByBreed,
+    fetchAllSearches
   };
 }
 const facade = apiFacade();
