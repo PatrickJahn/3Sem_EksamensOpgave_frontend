@@ -3,6 +3,9 @@ import facade from "./apiFacade";
 import WelcomePage from "./welcomePage";
 import { Switch, Route, NavLink } from "react-router-dom";
 import DogForm from "./dogAdd";
+import UserDogs from "./UserDogs";
+import Breeds from "./breeds";
+
 
 function Header({ loggedIn }) {
   return (
@@ -18,6 +21,19 @@ function Header({ loggedIn }) {
             Login
           </NavLink>
         </li>
+        <li>
+          <NavLink activeClassName="selected" to="/Dogs">
+            Dogs
+          </NavLink>
+        </li>
+
+        {loggedIn && (
+          <li>
+          <NavLink activeClassName="selected" to="/MyDogs">
+            My dogs
+          </NavLink>
+        </li>
+        )}
 
         {loggedIn && (
           <li>
@@ -27,6 +43,7 @@ function Header({ loggedIn }) {
         </li>
         )}
       
+
       </ul>
     </div>
   );
@@ -140,6 +157,12 @@ function App() {
         </Route>
         <Route exact path="/AddDog">  
           <DogForm />       
+        </Route>
+        <Route exact path="/MyDogs">  
+          <UserDogs />       
+        </Route>
+        <Route exact path="/Dogs">  
+          <Breeds />       
         </Route>
        
       </Switch>

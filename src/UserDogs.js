@@ -9,15 +9,24 @@ export default function UserDogs(){
 
     useEffect(() => {
 
-
-        
+        facade.fetchUserDogs().then((data) =>{
+            setDogs(data)
+        })
     
     
     },[])
 
     return (
         <div>
-            
+            {dogs.map((dog) => {
+
+                return(
+                    <p>{dog.name}</p>
+
+                )
+
+
+            })}
         </div>
 
     )

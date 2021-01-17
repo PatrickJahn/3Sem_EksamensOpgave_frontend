@@ -25,8 +25,18 @@ function apiFacade() {
   };
 
   const addDog = (dog) => {
-    const options = makeOptions("POST", true, dog); //True add's the token
+    const options = makeOptions("POST", true, dog); 
     return fetch(URL + "/api/dog/add", options).then(handleHttpErrors);
+  }
+
+  const fetchUserDogs = () => {
+    const options = makeOptions("GET", true); 
+    return fetch(URL + "/api/dog/mydogs", options).then(handleHttpErrors);
+  }
+
+  const fetchBreeds = () => {
+    const options = makeOptions("GET"); 
+    return fetch(URL + "/api/dog/breeds", options).then(handleHttpErrors);
   }
   
 
@@ -68,7 +78,9 @@ function apiFacade() {
     login,
     logout,
     fetchData,
-    addDog
+    addDog,
+    fetchUserDogs,
+    fetchBreeds
   };
 }
 const facade = apiFacade();
