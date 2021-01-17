@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import facade from "./apiFacade";
 import WelcomePage from "./welcomePage";
 import { Switch, Route, NavLink } from "react-router-dom";
+import DogForm from "./dogAdd";
 
 function Header({ loggedIn }) {
   return (
@@ -17,6 +18,14 @@ function Header({ loggedIn }) {
             Login
           </NavLink>
         </li>
+
+        {loggedIn && (
+          <li>
+          <NavLink activeClassName="selected" to="/AddDog">
+            Add dog
+          </NavLink>
+        </li>
+        )}
       
       </ul>
     </div>
@@ -129,7 +138,9 @@ function App() {
         <Route exact path="/LoginPage">
           <LoginPage setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
         </Route>
-
+        <Route exact path="/AddDog">  
+          <DogForm />       
+        </Route>
        
       </Switch>
     </div>
